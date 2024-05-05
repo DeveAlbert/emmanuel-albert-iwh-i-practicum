@@ -16,30 +16,25 @@ const PRIVATE_APP_KEY = 'pat-eu1-8e05ce55-e5bd-4e54-95f3-b88046f784f1';
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 // * Code for Route 1 goes here
-
-
 app.get('/', async (req, res) => {
-    const objectType = "2-128412340";
-    const baseURL = `https://api.hubspot.com/crm/v3/objects/${objectType}`;
-    const properties = "book_author,book_genre,book_issn,book_title";
-
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_KEY}`,
-        'Content-Type': 'application/json',
-    }
-
-    const favoriteBooks = `${baseURL}?properties=${properties}`
-    try {
-        const response = await axios.get(favoriteBooks, { headers });
-        const data = response.data.results;
-        res.render('homepage', { title: 'Favorite Book(s)', data });
-    } catch (error) {
-        console.error(error);
-    }
-
-});
-
-
+const favoriteBooks = 'https://api.hubspot.com/crm/v3/objects/pets?properties=book_author,book_genre,book_issn,book_title';
+  const headers = {
+    Authorization: `Bearer ${private_app_token}`,
+    'Content-Type': 'application/json'
+  }
+  const params = {
+    properties: ['book_author', 'book_genre', 'book_issn', 'book_title'] // Add the property names you want here
+  }
+  try {
+    const response = await axios.get(favoriteBooks, { headers, params });
+    console.log('API Response:', JSON.stringify(response.data, null, 2));
+    const favorite_books = response.data.results;
+    console.log('Favorite Books:', JSON.stringify(favorite_books, null, 2));
+    res.render('homepage', { favorite_books: favorite_books });
+  } catch (error) {
+    console.error(error);
+  }
+})
 
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
