@@ -10,16 +10,16 @@ app.use(express.json());
 app.set('views', path.join(__dirname, 'views'));
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
-const PRIVATE_APP_KEY = 'pat-eu1-8e05ce55-e5bd-4e54-95f3-b88046f784f1';
+const PRIVATE_APP_ACCESS = 'pat-eu1-8e05ce55-e5bd-4e54-95f3-b88046f784f1';
 
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 // * Code for Route 1 goes here
 app.get('/', async (req, res) => {
-const favoriteBooks = 'https://api.hubspot.com/crm/v3/objects/pets?properties=book_author,book_genre,book_issn,book_title';
+const favoriteBooks = 'https://api.hubspot.com/crm/v3/objects/2-128412340?properties=book_author,book_genre,book_issn,book_title';
   const headers = {
-    Authorization: `Bearer ${private_app_token}`,
+    Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
     'Content-Type': 'application/json'
   }
   const params = {

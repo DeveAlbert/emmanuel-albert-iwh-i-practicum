@@ -65,7 +65,7 @@ html
             th Book ISSN
             th Book Title  
       tbody
-        each favoriteBook in data
+        each favoriteBook in favorite_books 
           tr
             td= favoriteBook.properties.book_author
             td= favoriteBook.properties.book_genre
