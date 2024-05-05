@@ -54,23 +54,23 @@ app.get('/update-cobj', (req, res) => {
 
 // * Code for Route 3 goes here
 app.post('/update-cobj', async (req, res) => {
-    const favoriteBooks = 'https://api.hubspot.com/crm/v3/objects/favorite_books';
+    const favoriteBooks = 'https://api.hubspot.com/crm/v3/objects/2-128412340';
     const headers = {
-      Authorization: `Bearer ${private_app_token}`,
+      Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
       'Content-Type': 'application/json'
     }
-    const newFavoriteBook = {
+    const data = {
       properties: {
-                book_author: data.properties.book_author,
-                book_title: data.properties.book_title,
-                book_issn: data.properties.book_issn,
-                book_genre: data.properties.book_genre
+                book_author: req.body.book_author,
+                book_title: req.body.book_title,
+                book_issn: req.body.book_issn,
+                book_genre: req.body.book_genre
             }
       }
     
     try {
-      const response = await axios.post(favoriteBooks, newFavoriteBook, { headers });
-      console.log('API Response:', JSON.stringify(response.newFavoriteBook, null, 2));
+      const response = await axios.post(favoriteBooks, data, { headers });
+      console.log('API Response:', JSON.stringify(response.data, null, 2));
       res.redirect('/'); 
     } catch (error) {
       console.error(error);
