@@ -8,13 +8,57 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
-const PRIVATE_APP_ACCESS = '';
+const PRIVATE_APP_KEY = 'pat-eu1-8e05ce55-e5bd-4e54-95f3-b88046f784f1';
+
+const headers = {
+    Authorization: `Bearer ${PRIVATE_APP_KEY}`,
+    'Content-Type': 'application/json',
+}
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 // * Code for Route 1 goes here
+const objectType = "2-128412340";
+const baseURL = `https://api.hubspot.com/crm/v3/objects/${objectType}`;
+const properties = "book_author,book_genre,book_issn,book_title";
+
+app.get('/', async (req, res) => {
+    const favoriteBooks = `${baseURL}?properties=${properties}`
+    try {
+        const response = await axios.get(favoriteBooks, { headers });
+        const data = response.data.results;
+        res.render('homepage', { title: 'Favorite Book(s)', data });
+    } catch (error) {
+        console.error(error);
+    }
+
+});
+
+    
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
+
+app.get('/update-cobj', async (req, res) => {
+    const pageTitle = "Update Custom Object Form | Integrating With HubSpot I Practicum";
+    const favoriteBooks = `${baseURL}${objectId}?properties=${properties}`;
+    const objectId = '144528506';
+
+    try {
+        const response = await axios.get(favoriteBooks, { headers });
+        const data = response.data;
+
+        res.render('updates', { pageTitle: pageTitle,
+            book_author: data.properties.book_author, 
+            book_issn: data.properties.book_issn,
+            book_genre: data.properties.book_genre,
+            book_title: data.properties.book_title
+         });
+    } catch (error) {
+        console.error(error);
+    }
+
+});
+
 
 // * Code for Route 2 goes here
 
@@ -22,49 +66,11 @@ const PRIVATE_APP_ACCESS = '';
 
 // * Code for Route 3 goes here
 
-/** 
-* * This is sample code to give you a reference for how you should structure your calls. 
 
-* * App.get sample
-app.get('/contacts', async (req, res) => {
-    const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    }
-    try {
-        const resp = await axios.get(contacts, { headers });
-        const data = resp.data.results;
-        res.render('contacts', { title: 'Contacts | HubSpot APIs', data });      
-    } catch (error) {
-        console.error(error);
-    }
-});
 
-* * App.post sample
-app.post('/update', async (req, res) => {
-    const update = {
-        properties: {
-            "favorite_book": req.body.newVal
-        }
-    }
 
-    const email = req.query.email;
-    const updateContact = `https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`;
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    };
 
-    try { 
-        await axios.patch(updateContact, update, { headers } );
-        res.redirect('back');
-    } catch(err) {
-        console.error(err);
-    }
 
-});
-*/
 
 
 // * Localhost
