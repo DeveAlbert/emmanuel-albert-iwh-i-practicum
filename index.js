@@ -71,7 +71,7 @@ app.post('/update-cobj', async (req, res) => {
     try {
       const response = await axios.post(favoriteBooks, newFavoriteBook, { headers });
       console.log('API Response:', JSON.stringify(response.newFavoriteBook, null, 2));
-      res.redirect('/homepage'); // Redirects to home page
+      res.redirect('/'); // Redirects to home page
     } catch (error) {
       console.error(error);
     }
