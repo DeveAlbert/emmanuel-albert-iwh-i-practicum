@@ -23,7 +23,7 @@ const favoriteBooks = 'https://api.hubspot.com/crm/v3/objects/pets?properties=bo
     'Content-Type': 'application/json'
   }
   const params = {
-    properties: ['book_author', 'book_genre', 'book_issn', 'book_title'] // Add the property names you want here
+    properties: ['book_author', 'book_genre', 'book_issn', 'book_title'] 
   }
   try {
     const response = await axios.get(favoriteBooks, { headers, params });
@@ -71,7 +71,7 @@ app.post('/update-cobj', async (req, res) => {
     try {
       const response = await axios.post(favoriteBooks, newFavoriteBook, { headers });
       console.log('API Response:', JSON.stringify(response.newFavoriteBook, null, 2));
-      res.redirect('/'); // Redirects to home page
+      res.redirect('/'); 
     } catch (error) {
       console.error(error);
     }
